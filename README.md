@@ -9,7 +9,7 @@ This project has a simple api for my personal blog about cooking and programming
 | 1 | /recipes | GET | JSON | Get list of recipes | [More](#1-get-list-of-recipes) |
 | 2 | /recipes/`{id}` | GET | JSON | Get a recipe | [More](#2-get-a-recipe) |
 | 3 | /recipes | POST | JSON | Create a recipe | [More](#3-create-a-recipe) |
-| 4 | /recipes/`{id}` | PUT | JSON | Update recipe | [More](#4-update-recipe) |
+| 4 | /recipes/`{id}` | PUT | JSON | Update a recipe | [More](#4-update-a-recipe) |
 | 5 | /recipes/`{id}` | DELETE | JSON | Delete a recipe | [More](#5-delete-a-recipe) |
 
 ### 1. Get list of recipes
@@ -24,7 +24,7 @@ Response
 ```json
 [
   {
-    "id": "1",
+    "id": 1,
     "title": "Title",
     "dish": {
       "cookingTime": 60,
@@ -33,7 +33,7 @@ Response
     }
   },
   {
-    "id": "2",
+    "id": 2,
     "title": "Title 2",
     "dish": {
       "cookingTime": 40,
@@ -56,7 +56,7 @@ Response
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "Title 2",
   "dish": {
     "cookingTime": 40,
@@ -78,12 +78,11 @@ Input data
 
 ```json
 {
-    "Id": "3",
     "Title": "Newly Created Recipe",
     "Dish": {
       "CookingTime": 10,
       "Servings": 1,
-      "Difficulty": "Easy"
+      "Difficulty": 1
     }
 }
 ```
@@ -92,7 +91,7 @@ Response
 
 ```json
 {
-  "Id": "3",
+  "Id": 3,
   "Title": "Newly Created Recipe",
   "Dish": {
     "CookingTime": 10,
@@ -102,7 +101,7 @@ Response
 }
 ```
 
-### 4. Update recipe
+### 4. Update a recipe
 
 Request
 
@@ -114,13 +113,12 @@ Input data
 
 ```json
 {
-    "Id": "7",
-    "Title": "Newly Created Recipe",
-    "Dish": {
-      "CookingTime": 10,
-      "Servings": 1,
-      "Difficulty": "Easy"
-    }
+  "Title": "Newly Created Recipe",
+  "Dish": {
+    "CookingTime": 10,
+    "Servings": 1,
+    "Difficulty": 1
+  }
 }
 ```
 
@@ -129,7 +127,7 @@ Response
 ```json
 {
   "Id": "7",
-  "Title": "Newly Created Recipe",
+  "Title": "Updated Recipe",
   "Dish": {
     "CookingTime": 10,
     "Servings": 1,
@@ -144,4 +142,12 @@ Request
 
 ```http
 DELETE {host}/api/v1/recipe/1
+```
+
+Response
+
+```json
+{
+  "status": "success"
+}
 ```

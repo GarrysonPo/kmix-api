@@ -17,18 +17,18 @@ func SetupRouter() *mux.Router {
 	api1 := api.PathPrefix("/v1").Subrouter()
 
 	// articles
-	api1.HandleFunc("/articles", apiControllerV1.ReturnAllArticles).Methods("GET")
-	api1.HandleFunc("/articles/{id}", apiControllerV1.ReturnSingleArticle).Methods("GET")
-	api1.HandleFunc("/articles", apiControllerV1.CreateNewArticle).Methods("POST")
-	api1.HandleFunc("/articles/{id}", apiControllerV1.UpdateArticle).Methods("PUT")
-	api1.HandleFunc("/articles/{id}", apiControllerV1.DeleteArticle).Methods("DELETE")
+	api1.HandleFunc("/articles", apiControllerV1.ReturnAllArticles).Methods(http.MethodGet)
+	api1.HandleFunc("/articles/{id}", apiControllerV1.ReturnSingleArticle).Methods(http.MethodGet)
+	api1.HandleFunc("/articles", apiControllerV1.CreateNewArticle).Methods(http.MethodPost)
+	api1.HandleFunc("/articles/{id}", apiControllerV1.UpdateArticle).Methods(http.MethodPut)
+	api1.HandleFunc("/articles/{id}", apiControllerV1.DeleteArticle).Methods(http.MethodDelete)
 
 	// recipes
-	api1.HandleFunc("/recipes", apiControllerV1.ReturnAllRecipes).Methods("GET")
-	api1.HandleFunc("/recipes/{id}", apiControllerV1.ReturnSingleRecipe).Methods("GET")
-	api1.HandleFunc("/recipes", apiControllerV1.CreateNewRecipe).Methods("POST")
-	api1.HandleFunc("/recipes/{id}", apiControllerV1.UpdateRecipe).Methods("PUT")
-	api1.HandleFunc("/recipes/{id}", apiControllerV1.DeleteRecipe).Methods("DELETE")
+	api1.HandleFunc("/recipes", apiControllerV1.FetchAllRecipes).Methods(http.MethodGet)
+	api1.HandleFunc("/recipes/{id}", apiControllerV1.FetchItemRecipe).Methods(http.MethodGet)
+	api1.HandleFunc("/recipes", apiControllerV1.CreateRecipe).Methods(http.MethodPost)
+	api1.HandleFunc("/recipes/{id}", apiControllerV1.UpdateRecipe).Methods(http.MethodPut)
+	api1.HandleFunc("/recipes/{id}", apiControllerV1.DeleteRecipe).Methods(http.MethodDelete)
 
 	return r
 }
