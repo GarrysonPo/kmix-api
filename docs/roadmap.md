@@ -2,15 +2,10 @@
 
 May to June 2021 (current)
 
-- [Gorm](#Gorm)
 - [Entities](#entities)
   - [Recipe](#recipe)
   - [Article](#article)
 - [Testing](#testing)
-
-## Gorm
-
-- [ ] Database integration via [gorm](https://gorm.io/)
 
 ## Entities
 

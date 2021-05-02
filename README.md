@@ -19,6 +19,12 @@ Request
 ```http
 GET {host}/api/v1/recipes
 ```
+
+Addition params
+
+- offset
+- limit
+
 Response
 
 ```json

@@ -11,14 +11,14 @@ type RecipeService struct {
 	Recipe  models.Recipe
 }
 
-func (rs *RecipeService) FetchList(count, start int) map[string]interface{} {
+func (rs *RecipeService) FetchList(limit, offset int) map[string]interface{} {
 	recipes := rs.Recipes
 	rows, err := models.GetDB().Query(
 		"SELECT recipes.id, title, cooking_time, servings, difficulty.name FROM kmix.recipes "+
 			"LEFT JOIN difficulty ON recipes.difficulty = difficulty.id "+
 			"LIMIT ? OFFSET ?",
-		count,
-		start,
+		limit,
+		offset,
 	)
 	if err != nil {
 		panic(err)
