@@ -15,16 +15,16 @@ import (
 
 func FetchAllRecipes(w http.ResponseWriter, r *http.Request) {
 	var service v1s.RecipeService
-	start, err := strconv.Atoi(r.URL.Query().Get("start"))
+	offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
 	if err != nil {
-		start = 0
+		offset = 0
 	}
-	count, err := strconv.Atoi(r.URL.Query().Get("count"))
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
 	if err != nil {
-		count = 10
+		limit = 10
 	}
 
-	resp := service.FetchList(count, start)
+	resp := service.FetchList(limit, offset)
 	u.Respond(w, resp)
 }
 
