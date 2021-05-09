@@ -12,31 +12,31 @@ import (
 func TestFetchAllRecipes(t *testing.T) {
 	w := httptest.NewRecorder()
 
-	req := httptest.NewRequest("GET", "/api/v1/recipes", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/recipes", nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
-func TestFetchAllRecipesWithLimit(t *testing.T) {
+func TestFetchAllRecipesByLimit(t *testing.T) {
 	w := httptest.NewRecorder()
 
-	req := httptest.NewRequest("GET", "/api/v1/recipes?limit=3", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/recipes?limit=3", nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
-func TestFetchAllRecipesWithOffset(t *testing.T) {
+func TestFetchAllRecipesByOffset(t *testing.T) {
 	w := httptest.NewRecorder()
 
-	req := httptest.NewRequest("GET", "/api/v1/recipes?offset=3", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/recipes?offset=3", nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
 func TestFetchItemRecipe(t *testing.T) {
@@ -46,12 +46,12 @@ func TestFetchItemRecipe(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
 func TestCreateRecipe(t *testing.T) {
 	recipeInp := models.RecipeInput{
-		Title: "Newly Created Recipe",
+		Title: "New Title",
 		Dish: models.DishInput{
 			CookingTime: 40,
 			Servings:    1,
@@ -66,12 +66,12 @@ func TestCreateRecipe(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
 func TestUpdateRecipe(t *testing.T) {
 	recipeUpd := models.RecipeInput{
-		Title: "Title new",
+		Title: "Updated Title",
 		Dish: models.DishInput{
 			CookingTime: 40,
 			Servings:    1,
@@ -86,7 +86,7 @@ func TestUpdateRecipe(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
 
 func TestDeleteRecipe(t *testing.T) {
@@ -96,11 +96,5 @@ func TestDeleteRecipe(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 
 	router.ServeHTTP(w, req)
-	checkResponseCode(t, http.StatusOK, w.Code)
-}
-
-func checkResponseCode(t *testing.T, expected, actual int) {
-	if expected != actual {
-		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
-	}
+	CheckResponseCode(t, http.StatusOK, w.Code)
 }
