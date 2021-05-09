@@ -35,3 +35,9 @@ func TestMain(m *testing.M) {
 	exitVal := m.Run()
 	os.Exit(exitVal)
 }
+
+func CheckResponseCode(t *testing.T, expected, actual int) {
+	if expected != actual {
+		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
+	}
+}
