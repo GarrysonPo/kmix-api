@@ -23,9 +23,9 @@ func main() {
 
 	dataSourceName := fmt.Sprintf(
 		"%s:%s@/%s",
-		os.Getenv("DB_USERNAME"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_SCHEMA"),
+		os.Getenv("APP_DB_USERNAME"),
+		os.Getenv("APP_DB_PORT"),
+		os.Getenv("APP_DB_NAME"),
 	)
 	models.InitDB(dataSourceName)
 	defer models.CloseDB()
