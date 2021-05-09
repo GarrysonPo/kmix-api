@@ -4,64 +4,68 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"kmix-api/models"
-	"kmix-api/storage"
 	"net/http"
+	"strconv"
+
+	u "kmix-api/apiHelpers"
+	v1s "kmix-api/services/api/v1"
 
 	"github.com/gorilla/mux"
 )
 
-func ReturnAllArticles(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(storage.Articles)
-}
-
-func ReturnSingleArticle(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	for _, article := range storage.Articles {
-		if article.Id == id {
-			json.NewEncoder(w).Encode(article)
-		}
+func FetchAllArticles(w http.ResponseWriter, r *http.Request) {
+	var service v1s.ArticleService
+	offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
+	if err != nil {
+		offset = 0
 	}
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	if err != nil {
+		limit = 10
+	}
+
+	resp := service.FetchList(limit, offset)
+	u.Respond(w, resp)
 }
 
-func CreateNewArticle(w http.ResponseWriter, r *http.Request) {
+func FetchItemArticle(w http.ResponseWriter, r *http.Request) {
+	var service v1s.ArticleService
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
+
+	resp := service.FetchItem(id)
+	u.Respond(w, resp)
+}
+
+func CreateArticle(w http.ResponseWriter, r *http.Request) {
+	var service v1s.ArticleService
+	var newArticle models.ArticleInput
+
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	var article models.Article
-	json.Unmarshal(reqBody, &article)
-	storage.Articles = append(storage.Articles, article)
-	json.NewEncoder(w).Encode(article)
+	json.Unmarshal(reqBody, &newArticle)
+
+	resp := service.CreateItem(newArticle)
+	u.Respond(w, resp)
 }
 
 func UpdateArticle(w http.ResponseWriter, r *http.Request) {
+	var service v1s.ArticleService
+	var updArticle models.ArticleInput
 	vars := mux.Vars(r)
-	id := vars["id"]
+	id, _ := strconv.Atoi(vars["id"])
 
-	var updArticle models.Article
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(reqBody, &updArticle)
 
-	for i, article := range storage.Articles {
-		if article.Id == id {
-			article = models.Article{
-				Id:      updArticle.Id,
-				Title:   updArticle.Title,
-				Desc:    updArticle.Desc,
-				Content: updArticle.Content,
-			}
-			storage.Articles[i] = updArticle
-			json.NewEncoder(w).Encode(storage.Articles[i])
-		}
-	}
+	resp := service.UpdateItem(updArticle, id)
+	u.Respond(w, resp)
 }
 
 func DeleteArticle(w http.ResponseWriter, r *http.Request) {
+	var service v1s.ArticleService
 	vars := mux.Vars(r)
-	id := vars["id"]
+	id, _ := strconv.Atoi(vars["id"])
 
-	for i, article := range storage.Articles {
-		if article.Id == id {
-			storage.Articles = append(storage.Articles[:i], storage.Articles[i+1:]...)
-		}
-	}
+	resp := service.DeleteItem(id)
+	u.Respond(w, resp)
 }

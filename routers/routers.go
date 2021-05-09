@@ -17,9 +17,9 @@ func SetupRouter() *mux.Router {
 	api1 := api.PathPrefix("/v1").Subrouter()
 
 	// articles
-	api1.HandleFunc("/articles", apiControllerV1.ReturnAllArticles).Methods(http.MethodGet)
-	api1.HandleFunc("/articles/{id}", apiControllerV1.ReturnSingleArticle).Methods(http.MethodGet)
-	api1.HandleFunc("/articles", apiControllerV1.CreateNewArticle).Methods(http.MethodPost)
+	api1.HandleFunc("/articles", apiControllerV1.FetchAllArticles).Methods(http.MethodGet)
+	api1.HandleFunc("/articles/{id}", apiControllerV1.FetchItemArticle).Methods(http.MethodGet)
+	api1.HandleFunc("/articles", apiControllerV1.CreateArticle).Methods(http.MethodPost)
 	api1.HandleFunc("/articles/{id}", apiControllerV1.UpdateArticle).Methods(http.MethodPut)
 	api1.HandleFunc("/articles/{id}", apiControllerV1.DeleteArticle).Methods(http.MethodDelete)
 
